@@ -1,0 +1,505 @@
+/* ========================================
+   Feature Components (Leaves, Salary, Settings)
+   ======================================== */
+
+/* Page Title */
+.page-title {
+  margin: 0;
+  padding: 30px 40px 20px 40px;
+  font-size: 28px;
+  color: #2c3e50;
+  font-weight: 700;
+  border-bottom: 2px solid #e0e0e0;
+  margin-left: 280px;
+}
+
+/* ========== LEAVES PAGE ========== */
+.leave-balance {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  margin-left: 280px;
+}
+
+.balance-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.balance-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.balance-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #2c3e50;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.balance-card p {
+  margin: 0;
+  font-size: 32px;
+  color: #667eea;
+  font-weight: 700;
+}
+
+.apply-leave {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 40px;
+  margin-left: calc(280px + 40px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.apply-leave h3 {
+  margin: 0 0 25px 0;
+  font-size: 20px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.apply-leave form {
+  display: grid;
+  gap: 20px;
+}
+
+.apply-leave .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.apply-leave label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.apply-leave input,
+.apply-leave select,
+.apply-leave textarea {
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.apply-leave input:focus,
+.apply-leave select:focus,
+.apply-leave textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.apply-leave button {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.apply-leave button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.leave-history {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 40px;
+  margin-left: calc(280px + 40px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.leave-history h3 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Leave History - Table Version */
+.leave-history table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leave-history thead {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.leave-history th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.leave-history td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #555;
+}
+
+.leave-history tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.leave-history tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Leave History - Card Version */
+.history-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.history-card:hover {
+  background: #f0f1f2;
+}
+
+.history-card span {
+  font-size: 14px;
+  color: #555;
+}
+
+.history-card .approved {
+  display: inline-block;
+  background: #d4edda;
+  color: #155724;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.history-card .pending {
+  display: inline-block;
+  background: #fff3cd;
+  color: #856404;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* ========== SALARY PAGE ========== */
+.salary-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 40px;
+  margin-left: calc(280px + 40px);
+  color: white;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+}
+
+.salary-card h3 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.salary-amount {
+  margin: 0 0 15px 0;
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.salary-status {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.salary-history {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 40px;
+  margin-left: calc(280px + 40px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.salary-history h3 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.salary-history table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.salary-history thead {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.salary-history th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.salary-history td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #555;
+}
+
+.salary-history tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.salary-history tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.paid {
+  display: inline-block;
+  background: #d4edda;
+  color: #155724;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* ========== SETTINGS PAGE ========== */
+.settings-card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  margin: 30px 40px;
+  margin-left: calc(280px + 40px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+}
+
+.settings-card h2 {
+  margin: 0 0 30px 0;
+  font-size: 24px;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.settings-card .form-group {
+  margin-bottom: 25px;
+}
+
+.settings-card label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.settings-card input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.settings-card input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.settings-card button {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.settings-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.settings-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .page-title {
+    margin-left: 250px;
+    padding: 25px 30px 15px 30px;
+  }
+
+  .leave-balance,
+  .apply-leave,
+  .leave-history,
+  .salary-card,
+  .salary-history,
+  .settings-card {
+    margin-left: calc(250px + 30px);
+    padding: 25px;
+  }
+
+  .balance-card,
+  .salary-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .leave-balance {
+    margin-left: 0;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .apply-leave,
+  .leave-history,
+  .salary-card,
+  .salary-history,
+  .settings-card {
+    margin-left: 0;
+    margin: 15px 20px;
+    padding: 20px;
+  }
+
+  .salary-amount {
+    font-size: 36px;
+  }
+
+  .settings-card {
+    max-width: 100%;
+  }
+
+  .leave-history table,
+  .salary-history table {
+    font-size: 13px;
+  }
+
+  .leave-history th,
+  .leave-history td,
+  .salary-history th,
+  .salary-history td {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  .leave-balance {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .balance-card {
+    padding: 15px;
+  }
+
+  .apply-leave,
+  .leave-history,
+  .salary-card,
+  .salary-history,
+  .settings-card {
+    margin: 10px 15px;
+    padding: 15px;
+  }
+
+  .salary-amount {
+    font-size: 28px;
+  }
+
+  .salary-card h3,
+  .apply-leave h3,
+  .leave-history h3,
+  .salary-history h3 {
+    font-size: 16px;
+  }
+
+  .settings-card h2 {
+    font-size: 20px;
+  }
+
+  .leave-history table,
+  .salary-history table {
+    font-size: 12px;
+  }
+
+  .leave-history th,
+  .leave-history td,
+  .salary-history th,
+  .salary-history td {
+    padding: 8px;
+  }
+}
