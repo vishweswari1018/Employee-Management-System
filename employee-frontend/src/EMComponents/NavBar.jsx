@@ -1,4 +1,4 @@
-
+import "../styles/NavBar.css";
 
 function NavBar() {
   const employee = JSON.parse(

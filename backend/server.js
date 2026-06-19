@@ -2,47 +2,43 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const leaveRoutes = require("./routes/leaveRoutes");
-const salaryRoutes = require("./routes/salaryRoutes");
 
-// Load Environment Variables
 dotenv.config();
 
 const app = express();
 
-// Routes
-const authRoutes = require("./routes/authRoutes");
-const employeeRoutes = require("./routes/employeeRoutes");
-
-
-// Middleware
+// ========================
+// MIDDLEWARE
+// ========================
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/salary", salaryRoutes);
-app.use("/api/leaves", leaveRoutes);
-// Home Route
-app.get("/", (req, res) => {
-  res.send("Employee Management Backend Running...");
-});
+// ========================
+// ROUTES IMPORT
+// ========================
+const authRoutes = require("./routes/authRoutes");
+const employeeRoutes = require("./routes/employeeRoutes");
+const leaveRoutes = require("./routes/leaveRoutes");
+const salaryRoutes = require("./routes/salaryRoutes");
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB Connected");
-  })
-  .catch((error) => {
-    console.error("❌ MongoDB Connection Error:");
-    console.error(error.message);
-    process.exit(1);
-  });
-
-// Routes
+// ========================
+// ROUTES USE
+// ========================
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
+app.use("/api/leaves", leaveRoutes);
+app.use("/api/salary", salaryRoutes);
 
-// 404 Route
+// ========================
+// TEST ROUTE
+// ========================
+app.get("/", (req, res) => {
+  res.send("🚀 Employee Management Backend Running...");
+});
+
+// ========================
+// 404 ROUTE (LAST)
+// ========================
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -50,9 +46,11 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handler
+// ========================
+// GLOBAL ERROR HANDLER
+// ========================
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error("❌ Error:", err.message);
 
   res.status(500).json({
     success: false,
@@ -60,9 +58,20 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
+// ========================
+// DATABASE CONNECTION
+// ========================
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server Running on Port ${PORT}`);
-});
+    // START SERVER ONLY AFTER DB CONNECTS
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+  });

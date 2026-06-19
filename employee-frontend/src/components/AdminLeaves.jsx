@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import AdminNavbar from "../components/AdminNavbar";
+import "../styles/AdminLeaves.css";
 
 function AdminLeaves() {
   const [leaves, setLeaves] = useState([]);
@@ -86,92 +87,66 @@ function AdminLeaves() {
   };
 
   return (
-    <div className="admin-leave">
+    <div className="admin-leave-layout">
       <AdminSidebar />
 
-      <div className="main">
+      <div className="admin-leave-main">
         <AdminNavbar />
 
-        <h2>Leave Requests</h2>
+        <div className="leaves-content container-fluid mt-4 px-4">
+          <h2 className="mb-4 fw-bold text-primary border-bottom pb-2">Leave Requests</h2>
 
-        {leaves.length === 0 ? (
-          <p>No leave requests found</p>
-        ) : (
-          leaves.map((l) => (
-            <div
-              key={l._id}
-              style={{
-                border: "1px solid #ddd",
-                padding: "15px",
-                marginBottom: "10px",
-                borderRadius: "8px",
-              }}
-            >
-              <h4>{l.employeeName}</h4>
+          {leaves.length === 0 ? (
+            <div className="alert alert-info">No leave requests found</div>
+          ) : (
+            <div className="row g-4">
+              {leaves.map((l) => (
+                <div className="col-md-6 col-lg-4" key={l._id}>
+                  <div className="card shadow-sm border-0 h-100">
+                    <div className="card-body d-flex flex-column">
+                      <div className="d-flex justify-content-between align-items-start mb-3">
+                        <h5 className="card-title fw-bold text-dark mb-0">{l.employeeName}</h5>
+                        <span className={`badge ${
+                          l.status === 'Approved' ? 'bg-success' :
+                          l.status === 'Rejected' ? 'bg-danger' : 'bg-warning text-dark'
+                        }`}>{l.status}</span>
+                      </div>
+                      
+                      <div className="mb-3 flex-grow-1">
+                        <p className="card-text mb-1">
+                          <strong>Type:</strong> {l.leaveType}
+                        </p>
+                        <p className="card-text mb-1">
+                          <strong>Date:</strong> {new Date(l.fromDate).toLocaleDateString()} - {new Date(l.toDate).toLocaleDateString()}
+                        </p>
+                        <p className="card-text text-muted mt-2 small">
+                          <strong>Reason:</strong> {l.reason}
+                        </p>
+                      </div>
 
-              <p>
-                <b>Type:</b> {l.leaveType}
-              </p>
-
-              <p>
-                <b>From:</b>{" "}
-                {new Date(l.fromDate).toLocaleDateString()}
-              </p>
-
-              <p>
-                <b>To:</b>{" "}
-                {new Date(l.toDate).toLocaleDateString()}
-              </p>
-
-              <p>
-                <b>Reason:</b> {l.reason}
-              </p>
-
-              <p>
-                <b>Status:</b>{" "}
-                <span
-                  style={{
-                    color:
-                      l.status === "Approved"
-                        ? "green"
-                        : l.status === "Rejected"
-                        ? "red"
-                        : "orange",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {l.status}
-                </span>
-              </p>
-
-              {l.status === "Pending" && (
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <button
-                    onClick={() => approve(l._id)}
-                    style={{
-                      background: "green",
-                      color: "white",
-                      padding: "5px 10px",
-                    }}
-                  >
-                    Approve
-                  </button>
-
-                  <button
-                    onClick={() => reject(l._id)}
-                    style={{
-                      background: "red",
-                      color: "white",
-                      padding: "5px 10px",
-                    }}
-                  >
-                    Reject
-                  </button>
+                      {l.status === "Pending" && (
+                        <div className="d-flex gap-2 mt-auto pt-3 border-top">
+                          <button
+                            onClick={() => approve(l._id)}
+                            className="btn btn-success flex-grow-1 fw-bold shadow-sm"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => reject(l._id)}
+                            className="btn btn-danger flex-grow-1 fw-bold shadow-sm"
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
-          ))
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

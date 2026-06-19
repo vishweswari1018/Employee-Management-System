@@ -1,4 +1,4 @@
-
+import "../styles/AdminNavbar.css";
 
 function AdminNavbar() {
   const admin = JSON.parse(

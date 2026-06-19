@@ -7,11 +7,9 @@ const adminAuth = require("../middleware/adminAuth");
 const router = express.Router();
 
 
-// ========================================
-// Employee: View Own Profile
-// GET /profile
-// ========================================
-
+// ==========================
+// GET PROFILE (EMPLOYEE)
+// ==========================
 router.get("/profile", auth, async (req, res) => {
   try {
     const employee = await Employee.findById(req.employee.id)
@@ -23,10 +21,12 @@ router.get("/profile", auth, async (req, res) => {
         message: "Employee not found",
       });
     }
-       const leaves = await require("../models/Leave").find({
+
+    const leaves = await require("../models/Leave").find({
       employee: employee._id,
       status: "Approved",
     });
+
     res.status(200).json({
       success: true,
       employee,
@@ -34,8 +34,7 @@ router.get("/profile", auth, async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
-
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Server Error",
@@ -44,289 +43,220 @@ router.get("/profile", auth, async (req, res) => {
 });
 
 
-// ========================================
-// Admin: View All Employees
-// GET /employees
-// ========================================
+// ==========================
+// GET ALL EMPLOYEES (ADMIN)
+// ==========================
+router.get("/employees", auth, adminAuth, async (req, res) => {
+  try {
+    const employees = await Employee.find({
+      role: "employee",
+    }).select("-password");
 
-router.get(
-  "/employees",
-  auth,
-  adminAuth,
-  async (req, res) => {
-    try {
+    res.status(200).json({
+      success: true,
+      count: employees.length,
+      employees,
+    });
 
-      const employees = await Employee.find({
-        role: "employee",
-      }).select("-password");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+});
 
-      res.status(200).json({
-        success: true,
-        count: employees.length,
-        employees,
-      });
 
-    } catch (error) {
-      console.error(error);
+// ==========================
+// ADD EMPLOYEE (ADMIN)
+// ==========================
+router.post("/employees", auth, adminAuth, async (req, res) => {
+  try {
+    const {
+      employeeId,
+      name,
+      email,
+      department,
+      salary,
+      joiningDate,
+    } = req.body;
 
-      res.status(500).json({
+    if (
+      !employeeId ||
+      !name ||
+      !email ||
+      !department ||
+      !salary ||
+      !joiningDate
+    ) {
+      return res.status(400).json({
         success: false,
-        message: "Server Error",
+        message: "All fields are required",
       });
     }
+
+    if (!email.endsWith("@company.ac.in")) {
+      return res.status(400).json({
+        success: false,
+        message: "Email must end with @company.ac.in",
+      });
+    }
+
+    const existing = await Employee.findOne({
+      $or: [
+        { employeeId: employeeId.toUpperCase() },
+        { email: email.toLowerCase() },
+      ],
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: "Employee already exists",
+      });
+    }
+
+    const employee = await Employee.create({
+      employeeId: employeeId.toUpperCase(),
+      name,
+      email: email.toLowerCase(),
+      department,
+      salary: Number(salary),
+      joiningDate,
+      role: "employee",
+      status: "Pending Activation",
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Employee added successfully",
+      employee,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
-);
+});
 
 
-// ========================================
-// Admin: Add Employee
-// POST /employees
-// ========================================
+// ==========================
+// UPDATE EMPLOYEE (ADMIN)
+// ==========================
+router.put("/employees/:id", auth, adminAuth, async (req, res) => {
+  try {
+    const { email, phone, department, salary, joiningDate } = req.body;
 
-router.post(
-  "/employees",
-  auth,
-  adminAuth,
-  async (req, res) => {
-    try {
+    const employee = await Employee.findById(req.params.id);
 
-      const {
-        employeeId,
-        name,
-        email,
-        department,
-        salary,
-        joiningDate,
-      } = req.body;
+    if (!employee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
 
-      if (
-        !employeeId ||
-        !name ||
-        !email ||
-        !department ||
-        !salary ||
-        !joiningDate
-      ) {
-        return res.status(400).json({
-          success: false,
-          message: "All fields are required",
-        });
-      }
+    if (employee.role === "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Cannot edit admin",
+      });
+    }
 
+    if (email !== undefined) {
       if (!email.endsWith("@company.ac.in")) {
         return res.status(400).json({
           success: false,
-          message:
-            "Email must end with @company.ac.in",
+          message: "Email must end with @company.ac.in",
         });
       }
+      employee.email = email.toLowerCase();
+    }
 
-      const existingEmployee =
-        await Employee.findOne({
-          $or: [
-            {
-              employeeId:
-                employeeId.toUpperCase(),
-            },
-            {
-              email:
-                email.toLowerCase(),
-            },
-          ],
-        });
+    if (phone !== undefined) {
+      employee.phone = phone;
+    }
 
-      if (existingEmployee) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Employee ID or Email already exists",
-        });
-      }
+    if (department !== undefined) {
+      employee.department = department;
+    }
 
-      const employee =
-        await Employee.create({
-          employeeId:
-            employeeId.toUpperCase(),
-          name,
-          email: email.toLowerCase(),
-          department,
-          salary,
-          joiningDate,
+    if (salary !== undefined) {
+      employee.salary = Number(salary);
+    }
 
-          role: "employee",
+    if (joiningDate !== undefined) {
+      employee.joiningDate = joiningDate;
+    }
 
-          status:
-            "Pending Activation",
-        });
+    await employee.save();
 
-      res.status(201).json({
-        success: true,
-        message:
-          "Employee added successfully",
+    const updated = await Employee.findById(employee._id);
 
-        employee,
-      });
+    res.json({
+      success: true,
+      message: "Employee updated successfully",
+      employee: updated,
+    });
 
-    } catch (error) {
-      console.error(error);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+});
 
-      res.status(500).json({
+
+// ==========================
+// DELETE EMPLOYEE (ADMIN)
+// ==========================
+router.delete("/employees/:id", auth, adminAuth, async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id);
+
+    if (!employee) {
+      return res.status(404).json({
         success: false,
-        message: "Server Error",
+        message: "Employee not found",
       });
     }
-  }
-);
 
-
-// ========================================
-// Admin: Edit Employee
-// PUT /employees/:id
-// ========================================
-
-router.put(
-  "/employees/:id",
-  auth,
-  adminAuth,
-  async (req, res) => {
-    try {
-
-      const {
-        email,
-        department,
-        salary,
-        joiningDate,
-      } = req.body;
-
-      const employee =
-        await Employee.findById(req.params.id);
-
-      if (!employee) {
-        return res.status(404).json({
-          success: false,
-          message:
-            "Employee not found",
-        });
-      }
-
-      // Admin cannot edit admin account
-      if (employee.role === "admin") {
-        return res.status(403).json({
-          success: false,
-          message:
-            "Admin account cannot be edited",
-        });
-      }
-
-      if (email) {
-        if (
-          !email.endsWith(
-            "@company.ac.in"
-          )
-        ) {
-          return res.status(400).json({
-            success: false,
-            message:
-              "Email must end with @company.ac.in",
-          });
-        }
-
-        employee.email =
-          email.toLowerCase();
-      }
-
-      if (department) {
-        employee.department =
-          department;
-      }
-
-      if (salary !== undefined) {
-        employee.salary = salary;
-      }
-
-      if (joiningDate) {
-        employee.joiningDate =
-          joiningDate;
-      }
-
-      await employee.save();
-
-      res.status(200).json({
-        success: true,
-        message:
-          "Employee updated successfully",
-
-        employee,
-      });
-
-    } catch (error) {
-      console.error(error);
-
-      res.status(500).json({
+    if (employee.role === "admin") {
+      return res.status(403).json({
         success: false,
-        message: "Server Error",
+        message: "Cannot delete admin",
       });
     }
+
+    await Employee.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Employee deleted successfully",
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
-);
+});
 
 
-// ========================================
-// Admin: Delete Employee
-// DELETE /employees/:id
-// ========================================
-
-router.delete(
-  "/employees/:id",
-  auth,
-  adminAuth,
-  async (req, res) => {
-    try {
-
-      const employee =
-        await Employee.findById(
-          req.params.id
-        );
-
-      if (!employee) {
-        return res.status(404).json({
-          success: false,
-          message:
-            "Employee not found",
-        });
-      }
-
-      if (employee.role === "admin") {
-        return res.status(403).json({
-          success: false,
-          message:
-            "Admin account cannot be deleted",
-        });
-      }
-
-      await Employee.findByIdAndDelete(
-        req.params.id
-      );
-
-      res.status(200).json({
-        success: true,
-        message:
-          "Employee deleted successfully",
-      });
-
-    } catch (error) {
-      console.error(error);
-
-      res.status(500).json({
-        success: false,
-        message: "Server Error",
-      });
-    }
-  }
-);
+// ==========================
+// UPDATE PROFILE (EMPLOYEE)
+// ==========================
 router.put("/profile", auth, async (req, res) => {
   try {
-    const { gender, age, dob, experience } = req.body;
+    const { gender, age, dob, experience, phone } = req.body;
 
     const employee = await Employee.findById(req.employee.id);
 
@@ -337,35 +267,39 @@ router.put("/profile", auth, async (req, res) => {
       });
     }
 
-    // 🔥 FIXED UPDATE LOGIC (IMPORTANT)
     if (gender !== undefined) employee.gender = gender;
     if (age !== undefined) employee.age = age;
     if (dob !== undefined) employee.dob = dob;
+    if (phone !== undefined) employee.phone = phone;
 
-    // 🚨 IMPORTANT FIX FOR EXPERIENCE
-    if (experience !== undefined && experience !== null) {
+    if (experience !== undefined) {
       employee.experience = Number(experience);
     }
 
     await employee.save();
 
-    const updatedEmployee = await Employee.findById(employee._id)
+    const updated = await Employee.findById(employee._id)
       .select("-password");
 
-    res.status(200).json({
+    res.json({
       success: true,
       message: "Profile updated successfully",
-      employee: updatedEmployee,
+      employee: updated,
     });
 
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Server Error",
     });
   }
 });
+
+
+// ==========================
+// LEAVE BALANCE
+// ==========================
 router.get("/leave-balance", auth, async (req, res) => {
   try {
     const employee = await Employee.findById(req.employee.id);
@@ -385,8 +319,13 @@ router.get("/leave-balance", auth, async (req, res) => {
         earned: 5,
       },
     });
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 });
+
 module.exports = router;

@@ -1,0 +1,24 @@
+/* AdminLeaves.css */
+.admin-leave-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.admin-leave-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.leaves-content {
+  flex-grow: 1;
+}
+
+/* Make sure long reasons don't break the layout */
+.card-text {
+  word-break: break-word;
+}

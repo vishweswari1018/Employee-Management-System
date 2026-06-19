@@ -33,6 +33,12 @@ const employeeSchema = new mongoose.Schema(
       },
     },
 
+    // Phone Number
+    phone: {
+      type: String,
+      default: null,
+    },
+
     // Department
     department: {
       type: String,

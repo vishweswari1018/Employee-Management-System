@@ -1,0 +1,135 @@
+/* Leaves.css - Premium Modern Styling */
+
+/* Custom Input Styling */
+.custom-input {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+}
+
+.custom-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* Save Button (Apply Leave) */
+.save-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+.save-btn:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none !important;
+}
+
+/* Balance Cards Hover Effect */
+.balance-card {
+    transition: all 0.2s ease-in-out;
+    cursor: default;
+}
+
+.balance-card:hover {
+    transform: translateY(-4px);
+}
+
+.balance-card.bg-info.bg-opacity-10:hover {
+    box-shadow: 0 8px 24px rgba(13, 202, 240, 0.2);
+}
+
+.balance-card.bg-warning.bg-opacity-10:hover {
+    box-shadow: 0 8px 24px rgba(255, 193, 7, 0.2);
+}
+
+.balance-card.bg-success.bg-opacity-10:hover {
+    box-shadow: 0 8px 24px rgba(25, 135, 84, 0.2);
+}
+
+/* History List Styling */
+.list-group-item {
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent !important;
+}
+
+.list-group-item:hover {
+    transform: translateX(4px);
+    border-left-color: #3b82f6 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Perfect Flexbox layout for Leaves */
+.leave-layout {
+    display: flex !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+}
+
+/* Match Sidebar layout */
+.leave-layout .sidebar {
+    position: relative !important;
+    width: 320px !important;
+    min-width: 320px !important;
+    height: 100vh !important;
+    z-index: 10 !important;
+}
+
+/* Main content takes exactly the remaining space */
+.leave-layout .leave-main {
+    margin-left: 0 !important;
+    width: auto !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+}
+
+/* Reset Navbar margin */
+.leave-layout .navbar {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
+/* Form Label styling */
+.form-label {
+    letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .leave-layout .sidebar {
+        width: 280px !important;
+        min-width: 280px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .leave-layout {
+        flex-direction: column !important;
+        overflow: auto !important;
+    }
+
+    .leave-layout .sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        height: auto !important;
+    }
+}

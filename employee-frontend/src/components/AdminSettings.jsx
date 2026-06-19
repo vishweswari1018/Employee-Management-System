@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import AdminNavbar from "../components/AdminNavbar";
+import "../styles/AdminSettings.css";
 
 function AdminSettings() {
   const [form, setForm] = useState({
@@ -59,49 +60,74 @@ function AdminSettings() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="admin-settings-layout">
       <AdminSidebar />
 
-      <div style={{ width: "100%" }}>
+      <div className="admin-settings-main">
         <AdminNavbar />
 
-        <h2>Admin Settings</h2>
+        <div className="settings-content container-fluid mt-5 px-4">
+          <div className="row justify-content-center">
+            <div className="col-12 col-md-8 col-lg-6">
+              <div className="settings-card card border-0 shadow-sm">
+                <div className="card-body p-5">
+                  <div className="text-center mb-4">
+                    <div className="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle mb-3" style={{width: '60px', height: '60px', fontSize: '24px'}}>
+                      ⚙️
+                    </div>
+                    <h2 className="fw-bold text-primary mb-0">Admin Settings</h2>
+                    <p className="text-muted mt-2">Update your security preferences</p>
+                  </div>
+                  
+                  <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">
+                    <div className="form-group">
+                      <label className="form-label fw-semibold text-muted mb-2">Current Password</label>
+                      <input
+                        type="password"
+                        name="currentPassword"
+                        className="form-control custom-input"
+                        placeholder="Enter current password"
+                        value={form.currentPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Current Password</label>
-            <input
-              type="password"
-              name="currentPassword"
-              value={form.currentPassword}
-              onChange={handleChange}
-            />
+                    <div className="form-group">
+                      <label className="form-label fw-semibold text-muted mb-2">New Password</label>
+                      <input
+                        type="password"
+                        name="newPassword"
+                        className="form-control custom-input"
+                        placeholder="Enter new password"
+                        value={form.newPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label fw-semibold text-muted mb-2">Confirm Password</label>
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        className="form-control custom-input"
+                        placeholder="Confirm new password"
+                        value={form.confirmPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <button type="submit" className="btn btn-primary fw-bold py-3 mt-2 shadow-sm rounded-3 w-100">
+                      Update Password
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <label>New Password</label>
-            <input
-              type="password"
-              name="newPassword"
-              value={form.newPassword}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={form.confirmPassword}
-              onChange={handleChange}
-            />
-          </div>
-
-          <button type="submit">
-            Change Password
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

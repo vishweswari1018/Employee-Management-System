@@ -1,69 +1,65 @@
-/* Custom styles for Employee Dashboard */
+/* Salary.css - Premium Modern Styling */
 
-.hover-lift {
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+/* Salary Slip Card Styling */
+.salary-slip-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  border: 1px solid rgba(0,0,0,0.05) !important;
 }
 
-.hover-lift:hover {
+.salary-slip-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
 }
 
-.welcome-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-left: 5px solid #0d6efd !important;
-}
-
-/* Perfect Flexbox layout for Employee Dashboard */
-.dashboard-layout {
+/* Perfect Flexbox layout for Salary */
+.salary-layout {
   display: flex !important;
   width: 100vw !important;
   height: 100vh !important;
   overflow: hidden !important;
 }
 
-/* Make Sidebar wider and flow normally in the flex container */
-.dashboard-layout .sidebar {
+/* Match Sidebar layout */
+.salary-layout .sidebar {
   position: relative !important;
   width: 320px !important;
-  /* Increased width as requested */
   min-width: 320px !important;
   height: 100vh !important;
   z-index: 10 !important;
 }
 
 /* Main content takes exactly the remaining space */
-.dashboard-layout .employee-dashboard-main {
+.salary-layout .salary-main {
   margin-left: 0 !important;
   width: auto !important;
   flex: 1 !important;
-  /* Fills remaining space */
   display: flex !important;
   flex-direction: column !important;
   overflow-y: auto !important;
 }
 
-/* Reset Navbar margin since Sidebar is now in the document flow */
-.dashboard-layout .navbar {
+/* Reset Navbar margin */
+.salary-layout .navbar {
   margin-left: 0 !important;
   width: 100% !important;
 }
 
-/* Responsive sidebar adjustment */
+/* Responsive */
 @media (max-width: 1024px) {
-  .dashboard-layout .sidebar {
+  .salary-layout .sidebar {
     width: 280px !important;
     min-width: 280px !important;
   }
 }
 
 @media (max-width: 768px) {
-  .dashboard-layout {
+  .salary-layout {
     flex-direction: column !important;
     overflow: auto !important;
   }
-
-  .dashboard-layout .sidebar {
+  .salary-layout .sidebar {
     width: 100% !important;
     min-width: 100% !important;
     height: auto !important;
