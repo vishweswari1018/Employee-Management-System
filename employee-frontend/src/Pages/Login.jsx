@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Auth.css";
 
+import businessRecruitment from "../assets/business-recruitment.png";
 
 function Login() {
   const navigate = useNavigate();
@@ -65,7 +66,11 @@ function Login() {
 
   return (
     <div className="login-container">
-      <div className="login-card">
+      <div className="auth-content">
+        <div className="auth-image-section">
+          <img src={businessRecruitment} alt="Business Recruitment" />
+        </div>
+        <div className="login-card">
         <h2>Employee Login</h2>
 
         <form onSubmit={handleSubmit}>
@@ -93,6 +98,11 @@ function Login() {
               placeholder="Enter Password"
               required
             />
+            <div style={{ textAlign: "right", marginTop: "5px" }}>
+              <Link to="/forgot-password" style={{ fontSize: "14px", color: "#6366f1", textDecoration: "none" }}>
+                Forgot Password?
+              </Link>
+            </div>
           </div>
 
           <button
@@ -111,6 +121,7 @@ function Login() {
             Register
           </Link>
         </p>
+      </div>
       </div>
     </div>
   );

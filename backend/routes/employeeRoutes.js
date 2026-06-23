@@ -1,10 +1,95 @@
 const express = require("express");
 const Employee = require("../models/Employee");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const auth = require("../middleware/auth");
 const adminAuth = require("../middleware/adminAuth");
 
 const router = express.Router();
+
+// ==========================
+// MULTER CONFIG FOR PHOTOS
+// ==========================
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, "../uploads");
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname);
+    cb(null, "profile-" + uniqueSuffix + ext);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+  if (allowed.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed (JPEG, PNG, WEBP, GIF)"), false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
+});
+
+
+// ==========================
+// UPLOAD PROFILE PHOTO (EMPLOYEE)
+// ==========================
+router.post("/profile/photo", auth, upload.single("profilePhoto"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded",
+      });
+    }
+
+    const employee = await Employee.findById(req.employee.id);
+
+    if (!employee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+
+    // Delete old photo if exists
+    if (employee.profilePhoto) {
+      const oldPath = path.join(__dirname, "../", employee.profilePhoto);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+
+    // Save relative URL
+    employee.profilePhoto = `/uploads/${req.file.filename}`;
+    await employee.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile photo updated successfully",
+      profilePhoto: employee.profilePhoto,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Server Error",
+    });
+  }
+});
 
 
 // ==========================
@@ -96,10 +181,10 @@ router.post("/employees", auth, adminAuth, async (req, res) => {
       });
     }
 
-    if (!email.endsWith("@company.ac.in")) {
+    if (!email.endsWith("@gprec.ac.in")) {
       return res.status(400).json({
         success: false,
-        message: "Email must end with @company.ac.in",
+        message: "Email must end with @gprec.ac.in",
       });
     }
 
@@ -168,10 +253,10 @@ router.put("/employees/:id", auth, adminAuth, async (req, res) => {
     }
 
     if (email !== undefined) {
-      if (!email.endsWith("@company.ac.in")) {
+      if (!email.endsWith("@gprec.ac.in")) {
         return res.status(400).json({
           success: false,
-          message: "Email must end with @company.ac.in",
+          message: "Email must end with @gprec.ac.in",
         });
       }
       employee.email = email.toLowerCase();

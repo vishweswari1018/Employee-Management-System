@@ -24,6 +24,8 @@ function Leaves() {
     return new Date(date).toISOString().split("T")[0];
   };
 
+  const todayStr = new Date().toISOString().split("T")[0];
+
   // =========================
   // FETCH LEAVES
   // =========================
@@ -91,6 +93,14 @@ function Leaves() {
 
     const diff = to - from;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (from < today) {
+      alert("Cannot apply for leaves in the past");
+      return;
+    }
 
     if (days <= 0) {
       alert("Invalid date range");
@@ -198,11 +208,11 @@ function Leaves() {
                     <div className="row">
                       <div className="col-6">
                         <label className="form-label fw-semibold text-dark small text-uppercase mb-1">From Date</label>
-                        <input type="date" className="form-control custom-input" value={form.fromDate} onChange={(e) => setForm({ ...form, fromDate: e.target.value })} />
+                        <input type="date" min={todayStr} className="form-control custom-input" value={form.fromDate} onChange={(e) => setForm({ ...form, fromDate: e.target.value })} />
                       </div>
                       <div className="col-6">
                         <label className="form-label fw-semibold text-dark small text-uppercase mb-1">To Date</label>
-                        <input type="date" className="form-control custom-input" value={form.toDate} onChange={(e) => setForm({ ...form, toDate: e.target.value })} />
+                        <input type="date" min={form.fromDate || todayStr} className="form-control custom-input" value={form.toDate} onChange={(e) => setForm({ ...form, toDate: e.target.value })} />
                       </div>
                     </div>
 

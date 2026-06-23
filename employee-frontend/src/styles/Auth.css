@@ -5,22 +5,47 @@
 .login-container,
 .register-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f4f7f6;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
 
-.login-card,
-.register-card {
+.auth-content {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+  animation: slideUp 0.5s ease-out;
+}
+
+.auth-image-section {
+  flex: 1.2;
+  background: #eef2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.auth-image-section img {
   width: 100%;
   max-width: 450px;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.5s ease-out;
+  object-fit: contain;
+}
+
+.login-card,
+.register-card {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @keyframes slideUp {
@@ -44,6 +69,15 @@
 }
 
 /* Form Styling */
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -143,9 +177,13 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .login-card,
-  .register-card {
-    padding: 30px 20px;
+  .auth-content {
+    flex-direction: column;
+    margin: 20px;
+  }
+
+  .auth-image-section {
+    display: none; /* Hide image on smaller screens */
   }
 
   .login-card h2,
@@ -170,14 +208,18 @@
 @media (max-width: 480px) {
   .login-card,
   .register-card {
-    padding: 25px 15px;
-    max-width: 100%;
+    padding: 30px 20px;
   }
 
   .login-card h2,
   .register-card h2 {
     font-size: 22px;
     margin-bottom: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
   }
 
   .form-group {

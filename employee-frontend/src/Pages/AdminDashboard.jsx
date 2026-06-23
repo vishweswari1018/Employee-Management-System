@@ -3,6 +3,7 @@ import axios from "axios";
 
 import AdminSidebar from "../components/AdminSidebar";
 import AdminNavbar from "../components/AdminNavbar";
+import AdminDistribution from "../components/AdminDistribution";
 import "../styles/AdminDashboard.css";
 
 function AdminDashboard() {
@@ -124,69 +125,37 @@ function AdminDashboard() {
         {/* =========================
             TOP CARDS
         ========================== */}
-        <div className="cards-container">
-
+        <div className="cards-wrapper">
           <div className="admin-card">
             <h4>Total Employees</h4>
             <p>{totalEmployees}</p>
           </div>
-
           <div className="admin-card">
             <h4>Active Employees</h4>
             <p>{activeEmployees}</p>
           </div>
-
           <div className="admin-card">
             <h4>Pending Employees</h4>
             <p>{pendingEmployees}</p>
           </div>
-
-          <div className="admin-card">
+          <div className="admin-card card-offset-left">
             <h4>Departments</h4>
             <p>6</p>
           </div>
-
           <div className="admin-card">
             <h4>Employees On Leave</h4>
             <p>{employeesOnLeave}</p>
           </div>
-
         </div>
 
         {/* =========================
-            DEPARTMENT TABLE
+            DEPARTMENT BAR CHART
         ========================== */}
-        <div className="distribution-section">
-          <h2>Department Distribution</h2>
+        <AdminDistribution
+          departmentData={departmentData}
+          totalEmployees={totalEmployees}
+        />
 
-          <table className="distribution-table">
-            <thead>
-              <tr>
-                <th>Department</th>
-                <th>Employees</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {departmentData.map((dept, index) => (
-                <tr
-                  key={index}
-                  style={{
-                    opacity: dept.employees === 0 ? 0.5 : 1,
-                  }}
-                >
-                  <td>{dept.department}</td>
-                  <td>{dept.employees}</td>
-                </tr>
-              ))}
-
-              <tr className="total-row">
-                <td>Total</td>
-                <td>{totalEmployees}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   );

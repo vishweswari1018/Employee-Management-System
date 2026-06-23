@@ -1,0 +1,193 @@
+/* AdminDistribution.css — Premium Animated Bar Chart */
+
+.dist-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  margin: 24px 32px 32px;
+  animation: distFadeIn 0.7s ease-out;
+}
+
+/* ── Header ────────────────────────────────── */
+.dist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dist-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+.dist-subtitle {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.dist-total-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #f0f7ff 0%, #f5f0ff 100%);
+  border: 1px solid #e0ecff;
+  border-radius: 12px;
+  padding: 10px 20px;
+  min-width: 80px;
+}
+
+.dist-total-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #4f46e5;
+  line-height: 1;
+}
+
+.dist-total-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+
+/* ── Chart Rows ────────────────────────────── */
+.dist-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dist-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 80px;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Department label with colored dot */
+.dist-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.dist-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Bar track (grey background) */
+.dist-bar-track {
+  height: 10px;
+  background: #f1f5f9;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+/* Animated fill bar */
+.dist-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0s;
+  animation: barGrow 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: left;
+}
+
+@keyframes barGrow {
+  from { width: 0 !important; }
+  to   { /* width is set inline */ }
+}
+
+/* Count + percentage */
+.dist-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.dist-count-num {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dist-count-pct {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ── Footer Legend ──────────────────────────── */
+.dist-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.dist-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 99px;
+  letter-spacing: 0.3px;
+}
+
+.dist-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Animation ──────────────────────────────── */
+@keyframes distFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 768px) {
+  .dist-card {
+    margin: 0 16px 24px;
+    padding: 20px;
+  }
+
+  .dist-row {
+    grid-template-columns: 90px 1fr 64px;
+    gap: 10px;
+  }
+
+  .dist-total-num {
+    font-size: 1.4rem;
+  }
+}

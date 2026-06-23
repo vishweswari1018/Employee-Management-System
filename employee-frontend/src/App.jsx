@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
 import Employees from "./components/Employees";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -12,11 +13,13 @@ import Salary from "./EMComponents/Salary";
 import AdminSalary from "./Components/AdminSalary";
 import AdminSettings from "./Components/AdminSettings";
 import Settings from "./EMComponents/Settings";
+import Home from "./Pages/Home";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
           path="/Employee-Dashboard"
           element={<EmployeeDashboard />}
@@ -36,6 +39,10 @@ function App() {
         <Route
           path="/login"
           element={<Login />}
+        />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
         />
         <Route
   path="/admin-employees"

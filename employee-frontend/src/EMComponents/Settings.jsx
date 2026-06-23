@@ -2,6 +2,7 @@ import SideBar from "./SideBar";
 import NavBar from "./NavBar";
 import { useState } from "react";
 import axios from "axios";
+import "../styles/Settings.css";
 
 
 

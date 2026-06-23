@@ -83,9 +83,9 @@ const Employees = () => {
     if (
       !newEmployee.email
         .toLowerCase()
-        .endsWith("@company.ac.in")
+        .endsWith("@gprec.ac.in")
     ) {
-      alert("Email must end with @company.ac.in");
+      alert("Email must end with @gprec.ac.in");
       return;
     }
 
@@ -159,9 +159,9 @@ const Employees = () => {
     if (
       !editEmployee.email
         .toLowerCase()
-        .endsWith("@company.ac.in")
+        .endsWith("@gprec.ac.in")
     ) {
-      alert("Email must end with @company.ac.in");
+      alert("Email must end with @gprec.ac.in");
       return;
     }
 
@@ -275,7 +275,24 @@ const Employees = () => {
               employees.map((employee) => (
                 <tr key={employee._id}>
                   <td className="fw-semibold text-muted">{employee.employeeId}</td>
-                  <td className="fw-bold text-dark">{employee.name}</td>
+                  <td>
+                    <div className="d-flex align-items-center gap-2">
+                      <div className="emp-table-avatar">
+                        {employee.profilePhoto ? (
+                          <img
+                            src={`http://localhost:5000${employee.profilePhoto}`}
+                            alt={employee.name}
+                            className="emp-table-avatar-img"
+                          />
+                        ) : (
+                          <div className="emp-table-avatar-initials">
+                            {employee.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                          </div>
+                        )}
+                      </div>
+                      <span className="fw-bold text-dark">{employee.name}</span>
+                    </div>
+                  </td>
                   <td className="text-muted">{employee.email}</td>
                   <td><span className="badge bg-light text-dark border px-2 py-1">{employee.department}</span></td>
 
@@ -384,7 +401,7 @@ const Employees = () => {
               <input
                 className="form-control form-control-lg custom-input"
                 type="email"
-                placeholder="jane@company.ac.in"
+                placeholder="jane@gprec.ac.in"
                 value={newEmployee.email}
                 onChange={(e) =>
                   setNewEmployee({
@@ -568,10 +585,44 @@ const Employees = () => {
       {/* Details Employee Modal */}
       {showDetailsModal && detailsEmployee && (
         <div className="custom-modal-overlay">
-          <div className="custom-modal-content" style={{ maxWidth: '700px' }}>
-            <h3 className="mb-4 fw-bold text-info border-bottom pb-2">Employee Details</h3>
-            
-            <div className="row g-4 mb-4">
+          <div className="custom-modal-content details-modal-content">
+
+            {/* ── Photo Header Banner ── */}
+            <div className="details-modal-header">
+              <div className="details-photo-avatar">
+                {detailsEmployee.profilePhoto ? (
+                  <img
+                    src={`http://localhost:5000${detailsEmployee.profilePhoto}`}
+                    alt={detailsEmployee.name}
+                    className="details-photo-img"
+                  />
+                ) : (
+                  <div className="details-photo-initials">
+                    {detailsEmployee.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                  </div>
+                )}
+              </div>
+              <div className="details-header-meta">
+                <h4 className="details-header-name mb-1">{detailsEmployee.name}</h4>
+                <p className="details-header-dept mb-2">{detailsEmployee.department} · {detailsEmployee.employeeId}</p>
+                <span className={`badge rounded-pill px-3 py-2 ${
+                  detailsEmployee.status === "Active"
+                    ? "bg-success bg-opacity-25 text-success border border-success border-opacity-25"
+                    : "bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25"
+                }`}>
+                  {detailsEmployee.status}
+                </span>
+              </div>
+              <button
+                className="details-close-btn"
+                onClick={() => setShowDetailsModal(false)}
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="row g-4 mb-4 px-1">
               <div className="col-md-6">
                 <p className="mb-1 text-muted small fw-bold text-uppercase">Employee ID</p>
                 <p className="fw-semibold text-dark border-bottom pb-2">{detailsEmployee.employeeId}</p>
@@ -601,10 +652,6 @@ const Employees = () => {
                 <p className="fw-semibold text-dark border-bottom pb-2">{new Date(detailsEmployee.joiningDate).toLocaleDateString()}</p>
               </div>
               <div className="col-md-6">
-                <p className="mb-1 text-muted small fw-bold text-uppercase">Status</p>
-                <p className="fw-semibold text-dark border-bottom pb-2">{detailsEmployee.status}</p>
-              </div>
-              <div className="col-md-6">
                 <p className="mb-1 text-muted small fw-bold text-uppercase">Gender</p>
                 <p className="fw-semibold text-dark border-bottom pb-2">{detailsEmployee.gender || "Not specified"}</p>
               </div>
@@ -630,6 +677,7 @@ const Employees = () => {
                 Close
               </button>
             </div>
+
           </div>
         </div>
       )}

@@ -5,17 +5,15 @@ import "../styles/Auth.css";
 
 import businessRecruitment from "../assets/business-recruitment.png";
 
-function Register() {
+function ForgotPassword() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     employeeId: "",
     email: "",
-    gender: "",
-    age: "",
-    password: "",
-    confirmPassword: "",
     otp: "",
+    newPassword: "",
+    confirmNewPassword: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -37,7 +35,7 @@ function Register() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/send-activation-otp",
+        "http://localhost:5000/api/auth/forgot-password",
         {
           employeeId: formData.employeeId,
           email: formData.email,
@@ -46,7 +44,7 @@ function Register() {
       alert(response.data.message);
       setOtpSent(true);
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to send OTP");
+      alert(error.response?.data?.message || "Failed to send reset OTP");
     } finally {
       setLoading(false);
     }
@@ -55,8 +53,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Password Match Validation
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.newPassword !== formData.confirmNewPassword) {
       alert("Passwords do not match");
       return;
     }
@@ -65,17 +62,15 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "http://localhost:5000/api/auth/reset-password",
         formData
       );
 
       alert(response.data.message);
-
       navigate("/login");
     } catch (error) {
       alert(
-        error.response?.data?.message ||
-          "Registration Failed"
+        error.response?.data?.message || "Password Reset Failed"
       );
     } finally {
       setLoading(false);
@@ -89,11 +84,10 @@ function Register() {
           <img src={businessRecruitment} alt="Business Recruitment" />
         </div>
         <div className="register-card">
-        <h2>Activate Employee Account</h2>
+        <h2>Reset Password</h2>
 
         <p className="register-subtitle">
-          Complete your account activation using
-          your Employee ID and Company Email.
+          Enter your Employee ID and Email to reset your password.
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -108,6 +102,7 @@ function Register() {
                 onChange={handleChange}
                 placeholder="EMP001"
                 required
+                disabled={otpSent}
               />
             </div>
 
@@ -121,6 +116,7 @@ function Register() {
                 onChange={handleChange}
                 placeholder="employee@gprec.ac.in"
                 required
+                disabled={otpSent}
               />
             </div>
           </div>
@@ -133,7 +129,7 @@ function Register() {
               disabled={loading}
               style={{ marginTop: "16px" }}
             >
-              {loading ? "Sending OTP..." : "Send OTP"}
+              {loading ? "Sending OTP..." : "Send Reset OTP"}
             </button>
           ) : (
             <>
@@ -152,61 +148,28 @@ function Register() {
               </div>
 
               <div className="form-row">
-                {/* Gender */}
+                {/* New Password */}
                 <div className="form-group">
-                  <label>Gender</label>
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-
-                {/* Age */}
-                <div className="form-group">
-                  <label>Age</label>
-                  <input
-                    type="number"
-                    name="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    placeholder="Enter Age"
-                    min="18"
-                    max="65"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="form-row">
-                {/* Password */}
-                <div className="form-group">
-                  <label>Password</label>
+                  <label>New Password</label>
                   <input
                     type="password"
-                    name="password"
-                    value={formData.password}
+                    name="newPassword"
+                    value={formData.newPassword}
                     onChange={handleChange}
-                    placeholder="Enter Password"
+                    placeholder="Enter New Password"
                     required
                   />
                 </div>
 
-                {/* Confirm Password */}
+                {/* Confirm New Password */}
                 <div className="form-group">
                   <label>Confirm Password</label>
                   <input
                     type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
+                    name="confirmNewPassword"
+                    value={formData.confirmNewPassword}
                     onChange={handleChange}
-                    placeholder="Confirm Password"
+                    placeholder="Confirm New Password"
                     required
                   />
                 </div>
@@ -217,16 +180,15 @@ function Register() {
                 className="register-btn"
                 disabled={loading}
               >
-                {loading ? "Activating..." : "Activate Account"}
+                {loading ? "Resetting..." : "Reset Password"}
               </button>
             </>
           )}
         </form>
 
         <p className="login-link">
-          Already activated your account?
-
-          <Link to="/login">
+          Remembered your password?
+          <Link to="/login" style={{ marginLeft: "5px" }}>
             Login
           </Link>
         </p>
@@ -236,4 +198,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default ForgotPassword;

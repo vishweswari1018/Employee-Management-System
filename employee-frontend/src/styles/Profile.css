@@ -1,6 +1,164 @@
 /* Profile.css - Premium Modern Styling */
 
-/* Custom Input Styling */
+/* ── Photo Upload Section ──────────────────── */
+.photo-upload-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #f0f7ff 0%, #f5f0ff 100%);
+    border-radius: 16px;
+    border: 1px solid #e0ecff;
+}
+
+/* Avatar wrapper */
+.photo-avatar-wrapper {
+    flex-shrink: 0;
+}
+
+/* Circular avatar */
+.photo-avatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+    border: 3px solid #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.photo-avatar:hover {
+    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4);
+}
+
+.photo-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Initials fallback */
+.photo-avatar-initials {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    user-select: none;
+}
+
+/* Camera overlay on hover */
+.photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    border-radius: 50%;
+}
+
+.photo-avatar:hover .photo-overlay,
+.photo-overlay.uploading {
+    opacity: 1;
+}
+
+.photo-camera-icon {
+    width: 32px;
+    height: 32px;
+    color: #fff;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+/* Upload spinner inside avatar */
+.photo-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Photo meta text */
+.photo-meta {
+    flex: 1;
+}
+
+.photo-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.photo-dept {
+    font-size: 0.875rem;
+}
+
+/* Upload button */
+.photo-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 18px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.25);
+}
+
+.photo-upload-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(59, 130, 246, 0.35);
+}
+
+.photo-upload-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.photo-upload-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Inline spinner inside button */
+.btn-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+}
+
+.photo-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 0;
+}
+
+/* ── Custom Input Styling ──────────────────── */
 .custom-input {
     border: 2px solid #e2e8f0;
     border-radius: 8px;
@@ -16,7 +174,7 @@
     outline: none;
 }
 
-/* Save Button */
+/* ── Save Button ───────────────────────────── */
 .save-btn {
     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
     border: none;
@@ -39,7 +197,7 @@
     box-shadow: none !important;
 }
 
-/* Perfect Flexbox layout for Profile */
+/* ── Layout ────────────────────────────────── */
 .profile-layout {
     display: flex !important;
     width: 100vw !important;
@@ -47,7 +205,6 @@
     overflow: hidden !important;
 }
 
-/* Match Sidebar layout */
 .profile-layout .sidebar {
     position: relative !important;
     width: 320px !important;
@@ -56,7 +213,6 @@
     z-index: 10 !important;
 }
 
-/* Main content takes exactly the remaining space */
 .profile-layout .profile-main {
     margin-left: 0 !important;
     width: auto !important;
@@ -66,18 +222,16 @@
     overflow-y: auto !important;
 }
 
-/* Reset Navbar margin */
 .profile-layout .navbar {
     margin-left: 0 !important;
     width: 100% !important;
 }
 
-/* Form Layout tweaks */
 .form-label {
     letter-spacing: 0.5px;
 }
 
-/* Responsive */
+/* ── Responsive ────────────────────────────── */
 @media (max-width: 1024px) {
     .profile-layout .sidebar {
         width: 280px !important;
@@ -95,5 +249,11 @@
         width: 100% !important;
         min-width: 100% !important;
         height: auto !important;
+    }
+
+    .photo-upload-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
     }
 }

@@ -1,5 +1,0 @@
-{
-    "chat.agent.enabled": false,
-    "chat.agent.maxRequests": 500,
-    "chat.disableAIFeatures": false
-}

@@ -48,10 +48,20 @@ router.post("/apply", auth, async (req, res) => {
     from.setHours(0, 0, 0, 0);
     to.setHours(0, 0, 0, 0);
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (from < today) {
+      return res.status(400).json({
+        success: false,
+        message: "❌ Cannot apply for leaves in the past",
+      });
+    }
+
     if (to < from) {
       return res.status(400).json({
         success: false,
-        message: "Invalid date range",
+        message: "❌ Invalid date range",
       });
     }
 
@@ -75,7 +85,7 @@ router.post("/apply", auth, async (req, res) => {
       status: { $ne: "Rejected" },
     });
 
-    const isOverlap = existingLeaves.some((leave) => {
+    const overlappingLeave = existingLeaves.find((leave) => {
       const oldFrom = new Date(leave.fromDate);
       const oldTo = new Date(leave.toDate);
 
@@ -85,10 +95,12 @@ router.post("/apply", auth, async (req, res) => {
       return from <= oldTo && to >= oldFrom;
     });
 
-    if (isOverlap) {
+    if (overlappingLeave) {
+      const formattedFrom = new Date(overlappingLeave.fromDate).toISOString().split("T")[0];
+      const formattedTo = new Date(overlappingLeave.toDate).toISOString().split("T")[0];
       return res.status(400).json({
         success: false,
-        message: "❌ You already have leave booked for these dates",
+        message: `❌ You already have a ${overlappingLeave.status} leave (${formattedFrom} to ${formattedTo}) that overlaps with these dates`,
       });
     }
 

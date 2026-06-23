@@ -27,9 +27,9 @@ const employeeSchema = new mongoose.Schema(
       lowercase: true,
       validate: {
         validator: function (email) {
-          return email.endsWith("@company.ac.in");
+          return email.endsWith("@gprec.ac.in");
         },
-        message: "Email must end with @company.ac.in",
+        message: "Email must end with @gprec.ac.in",
       },
     },
 
@@ -123,11 +123,41 @@ const employeeSchema = new mongoose.Schema(
       default: null,
     },
 
+    // Profile Photo URL
+    profilePhoto: {
+      type: String,
+      default: null,
+    },
+
     // Role
     role: {
       type: String,
       enum: ["employee", "admin"],
       default: "employee",
+    },
+
+    // OTP for activation
+    activationOtp: {
+      type: String,
+      default: null,
+    },
+
+    // Expiry for activation OTP
+    otpExpiresAt: {
+      type: Date,
+      default: null,
+    },
+
+    // OTP for password reset
+    resetPasswordOtp: {
+      type: String,
+      default: null,
+    },
+
+    // Expiry for password reset OTP
+    resetPasswordExpiresAt: {
+      type: Date,
+      default: null,
     },
   },
   {

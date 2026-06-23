@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar from "../EMComponents/SideBar";
 import NavBar from "../EMComponents/NavBar";
+import "../styles/Salary.css";
 
 
 function Salary() {
